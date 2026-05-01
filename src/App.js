@@ -82,6 +82,47 @@ export default class App extends Component {
             </p>
           </>
         )}
+
+        <footer className="app-footer">
+          <div className="staff-roll">
+            <p className="staff-line headline">
+              <span className="staff-label">ORIGINAL DEV</span>
+              <a
+                href="https://github.com/StephenRadachy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="staff-name"
+              >
+                STEPHEN RADACHY
+              </a>
+            </p>
+            <p className="staff-line">
+              <span className="staff-label">BLURBS FINISHED BY</span>
+              <a
+                href="https://github.com/nradachy-web"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="staff-name secondary"
+              >
+                NICK RADACHY
+              </a>
+            </p>
+          </div>
+          <div className="staff-credits">
+            <p>
+              Built with{' '}
+              <a href="https://github.com/facebook/create-react-app" target="_blank" rel="noopener noreferrer">CRA</a>
+              {' · '}
+              <a href="https://github.com/nostalgic-css/NES.css" target="_blank" rel="noopener noreferrer">NES.css</a>
+              {' · '}
+              <a href="https://github.com/bschulte/nes-react" target="_blank" rel="noopener noreferrer">nes-react</a>
+            </p>
+            <p>
+              Characters and icons from the{' '}
+              <a href="https://www.mariowiki.com/Mario_Kart_8_Deluxe#Characters" target="_blank" rel="noopener noreferrer">Super Mario Wiki</a>
+            </p>
+          </div>
+        </footer>
       </div>
     )
   }
