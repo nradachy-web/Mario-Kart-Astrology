@@ -1,0 +1,4 @@
+{
+  "installCommand": "yarn install --ignore-scripts",
+  "buildCommand": "CI=false yarn build"
+}
