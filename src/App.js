@@ -1,40 +1,88 @@
 import React, { Component } from 'react'
-import { Container, Icon, List } from 'nes-react'
-import Character from './Character'
+import { Icon } from 'nes-react'
+import CharacterCard from './CharacterCard'
+import CharacterDetail from './CharacterDetail'
 import AstrologyData from './AstrologyData.json'
 
+const sortedData = [...AstrologyData].sort((a, b) => a.name.localeCompare(b.name))
+
 export default class App extends Component {
+  state = { selected: null }
+
+  pick = (character) => {
+    this.setState({ selected: character })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  reset = () => this.setState({ selected: null })
+
+  random = () => {
+    const c = sortedData[Math.floor(Math.random() * sortedData.length)]
+    this.pick(c)
+  }
+
   render() {
-    return <div style={{
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      maxWidth: 768,
-      padding: '10px'
-    }}>
-      <h1>Mario Kart Astrology <a href='https://github.com/StephenRadachy/Mario-Kart-Astrology'><Icon icon='github' /></a></h1>
-      <h4>Your chosen Mario Kart player says WAY more than a zodiac sign does - <a href='https://twitter.com/ChloeCondon/status/1108738908999700480' target='_blank' rel='noopener noreferrer'>@ChloeCondon</a></h4>
-      <br></br>
-      <br></br>
-      <section>
-        {
-          AstrologyData
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map(c => <Character name={c.name} image={c.image} text={c.text} key={Math.random().toString().substring(2)} />)
-        }
-      </section>
-      <br></br>
-      <Container title='credits'>
-        <p>Built with</p>
-        <List>
-          <li><a href='https://github.com/facebook/create-react-app'>Create React App</a></li>
-          <li><a href='https://github.com/nostalgic-css/NES.css'>NES.css</a></li>
-          <li><a href='https://github.com/bschulte/nes-react'>nes-react</a></li>
-        </List>
-        <p>Mario Kart 8 Deluxe characters & images</p>
-        <List>
-          <li><a href='https://www.mariowiki.com/Mario_Kart_8_Deluxe#Characters'>Super Mario Wiki</a></li>
-        </List>
-      </Container>
-    </div>
+    const { selected } = this.state
+    return (
+      <div className="app">
+        <header className="app-header">
+          <h1>
+            Mario Kart Astrology{' '}
+            <a
+              href="https://github.com/StephenRadachy/Mario-Kart-Astrology"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub repo"
+            >
+              <Icon icon="github" />
+            </a>
+          </h1>
+          <p className="tagline">
+            Your chosen Mario Kart player says WAY more about you than a zodiac sign does.
+          </p>
+          <p className="credit">
+            via{' '}
+            <a
+              href="https://twitter.com/ChloeCondon/status/1108738908999700480"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @ChloeCondon
+            </a>
+          </p>
+        </header>
+
+        {selected ? (
+          <CharacterDetail
+            key={selected.name}
+            character={selected}
+            onBack={this.reset}
+            onRandom={this.random}
+          />
+        ) : (
+          <>
+            <p className="prompt">CHOOSE YOUR DRIVER</p>
+            <div className="grid">
+              <button
+                type="button"
+                className="card mystery"
+                onClick={this.random}
+                aria-label="Random character"
+              >
+                <span className="mystery-mark">?</span>
+                <span className="card-name">RANDOM</span>
+              </button>
+              {sortedData.map((c) => (
+                <CharacterCard key={c.name} character={c} onPick={this.pick} />
+              ))}
+            </div>
+            <p className="footnote">
+              42 racers. Pick the one you main. Or hit{' '}
+              <span className="footnote-mystery">?</span> and let fate decide.
+            </p>
+          </>
+        )}
+      </div>
+    )
   }
 }
